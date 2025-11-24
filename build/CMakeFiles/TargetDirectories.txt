@@ -1,0 +1,12 @@
+D:/Dev/MyEngine/build/CMakeFiles/glad.dir
+D:/Dev/MyEngine/build/CMakeFiles/MyEngine.dir
+D:/Dev/MyEngine/build/CMakeFiles/INSTALL.dir
+D:/Dev/MyEngine/build/CMakeFiles/ALL_BUILD.dir
+D:/Dev/MyEngine/build/CMakeFiles/ZERO_CHECK.dir
+D:/Dev/MyEngine/build/thirdparty/glfw/CMakeFiles/uninstall.dir
+D:/Dev/MyEngine/build/thirdparty/glfw/CMakeFiles/INSTALL.dir
+D:/Dev/MyEngine/build/thirdparty/glfw/CMakeFiles/ALL_BUILD.dir
+D:/Dev/MyEngine/build/thirdparty/glfw/src/CMakeFiles/glfw.dir
+D:/Dev/MyEngine/build/thirdparty/glfw/src/CMakeFiles/update_mappings.dir
+D:/Dev/MyEngine/build/thirdparty/glfw/src/CMakeFiles/INSTALL.dir
+D:/Dev/MyEngine/build/thirdparty/glfw/docs/CMakeFiles/INSTALL.dir

@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/Dev/MyEngine/build/cmake_install.cmake",
+		"D:/Dev/MyEngine/build/thirdparty/glfw/cmake_install.cmake",
+		"D:/Dev/MyEngine/build/thirdparty/glfw/src/cmake_install.cmake",
+		"D:/Dev/MyEngine/build/thirdparty/glfw/docs/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

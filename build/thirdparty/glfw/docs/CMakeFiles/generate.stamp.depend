@@ -1,0 +1,5 @@
+# CMake generation dependency list for this directory.
+D:/Dev/MyEngine/thirdparty/glfw/docs/CMakeLists.txt
+D:/cmake/share/cmake-4.2/Modules/FindDoxygen.cmake
+D:/cmake/share/cmake-4.2/Modules/FindPackageHandleStandardArgs.cmake
+D:/cmake/share/cmake-4.2/Modules/FindPackageMessage.cmake
