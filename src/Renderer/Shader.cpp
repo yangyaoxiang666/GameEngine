@@ -1,35 +1,41 @@
-#include <glad/glad.h>
 #include "Shader.h"
+
+#include <glad/glad.h>
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <glm/gtc/type_ptr.hpp>
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath) {
-    // 1. 读取文件
-    std::string vertexCode;
-    std::string fragmentCode;
+// ------------------------------------------------------------
+// 构造函数：读取文件、编译 shader、链接 program
+// ------------------------------------------------------------
+Shader::Shader(const char* vertexPath, const char* fragmentPath)
+{
+    // 读取 shader 文件
+    std::ifstream vFile(vertexPath);
+    std::ifstream fFile(fragmentPath);
 
-    std::ifstream vShaderFile(vertexPath);
-    std::ifstream fShaderFile(fragmentPath);
-
-    if (!vShaderFile.is_open()) {
+    if (!vFile.is_open()) {
         std::cerr << "[Shader] Failed to open vertex shader: " << vertexPath << std::endl;
     }
-    if (!fShaderFile.is_open()) {
+    if (!fFile.is_open()) {
         std::cerr << "[Shader] Failed to open fragment shader: " << fragmentPath << std::endl;
     }
 
-    std::stringstream vShaderStream, fShaderStream;
-    vShaderStream << vShaderFile.rdbuf();
-    fShaderStream << fShaderFile.rdbuf();
+    std::stringstream vStream, fStream;
+    vStream << vFile.rdbuf();
+    fStream << fFile.rdbuf();
 
-    vertexCode = vShaderStream.str();
-    fragmentCode = fShaderStream.str();
+    std::string vertexCode = vStream.str();
+    std::string fragmentCode = fStream.str();
 
     const char* vCode = vertexCode.c_str();
     const char* fCode = fragmentCode.c_str();
 
-    // 2. 编译 Shader
+
+    // ------------------------------------------------------------
+    // 编译顶点着色器
+    // ------------------------------------------------------------
     unsigned int vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vCode, nullptr);
     glCompileShader(vertex);
@@ -43,6 +49,10 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
         std::cerr << "[Shader] Vertex shader compile error:\n" << infoLog << std::endl;
     }
 
+
+    // ------------------------------------------------------------
+    // 编译片元着色器
+    // ------------------------------------------------------------
     unsigned int fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fCode, nullptr);
     glCompileShader(fragment);
@@ -53,7 +63,10 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
         std::cerr << "[Shader] Fragment shader compile error:\n" << infoLog << std::endl;
     }
 
-    // 3. 链接 Program
+
+    // ------------------------------------------------------------
+    // 链接 Shader Program
+    // ------------------------------------------------------------
     ID = glCreateProgram();
     glAttachShader(ID, vertex);
     glAttachShader(ID, fragment);
@@ -67,10 +80,52 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
         std::cout << "[Shader] Shader program created successfully." << std::endl;
     }
 
+    // 链接后删除 shader 对象
     glDeleteShader(vertex);
     glDeleteShader(fragment);
 }
 
-void Shader::Use() const {
+
+// ------------------------------------------------------------
+// 启用此 shader program
+// ------------------------------------------------------------
+void Shader::Use() const
+{
     glUseProgram(ID);
 }
+
+
+// ------------------------------------------------------------
+// 传 float uniform
+// ------------------------------------------------------------
+void Shader::SetFloat(const std::string& name, float value) const
+{
+    int location = glGetUniformLocation(ID, name.c_str());
+    if (location == -1) {
+        std::cerr << "[Shader] Warning: uniform '" << name << "' not found. (location = -1)\n";
+    }
+    glUniform1f(location, value);
+}
+
+
+// ------------------------------------------------------------
+// 传 int uniform（sampler2D 必须用 int）
+// ------------------------------------------------------------
+void Shader::SetInt(const std::string& name, int value) const
+{
+    int location = glGetUniformLocation(ID, name.c_str());
+    if (location == -1) {
+        std::cerr << "[Shader] Warning: uniform '" << name << "' not found." << std::endl;
+    }
+    glUniform1i(location, value);
+}
+
+void Shader::SetMat4(const std::string& name, const glm::mat4& matrix) const
+{
+    int location = glGetUniformLocation(ID, name.c_str());
+    if (location == -1) {
+        std::cerr << "[Shader] Warning: uniform '" << name << "' not found.\n";
+    }
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+

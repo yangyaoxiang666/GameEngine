@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(MyEngine)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # 添加 GLFW
 add_subdirectory(thirdparty/glfw)
@@ -9,15 +11,23 @@ add_subdirectory(thirdparty/glfw)
 # 头文件搜索路径
 include_directories(
     src
-    thirdparty/glfw/include
+    thirdparty/glfw/includes
     thirdparty/glad/include
+    thirdparty/stb
+    thirdparty/glm
 )
 
 # 明确列出源文件
 set(SOURCES
     src/main.cpp
     src/Core/Window.cpp
+    src/Core/Application.cpp
     src/Renderer/Shader.cpp
+    src/Renderer/Texture.cpp
+    src/Renderer/Camera.cpp
+    
+    src/Transform/Transform.h      
+    src/GameObject/GameObject.h
 )
 
 # GLAD 静态库
